@@ -1,0 +1,11 @@
+1.修改主机名
+#修改主机名
+hostnamectl set-hostname imaxun-qcloud1
+2.修改各节点主机配置文件为一致
+vim /etc/hosts
+3.修改master证书，重启etdc
+cfssl gencert -ca=/opt/certificate/ca.pem -ca-key=/opt/certificate/ca-key.pem -config=/opt/certificate/conf/ca-config.json -profile=kubernetes /opt/certificate/conf/server-csr.json | cfssljson -bare server
+systemctl restart etcd
+4.子节点安装flanel(安装重启后记得查看网段ifconfig)
+5.子节点安装kubelet(报错 swapoff 关闭系统设备交换区 swapoff -a)
+6.子节点安装kube-poxy
